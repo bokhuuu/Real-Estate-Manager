@@ -1,11 +1,11 @@
 import React from "react";
-import AddAgentForm from "../components/forms/AddAgentForm";
+import AddAgenButton from "../components/buttons/AddAgenButton";
 
 const ListingsPage = () => {
   return (
     <div>
       ListingsPage
-      <AddAgentForm />
+      <AddAgenButton />
     </div>
   );
 };

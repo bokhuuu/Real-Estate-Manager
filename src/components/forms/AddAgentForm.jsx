@@ -40,11 +40,16 @@ const DeleteIcon = styled.button``;
 const ButtonsContainer = styled.div``;
 
 const schema = yup.object().shape({
-  name: yup.string().required("სახელი აუცილებელია").min(2, "მინიმუმ 2 სიმბოლო"),
+  name: yup
+    .string()
+    .required("სახელი აუცილებელია")
+    .min(2, "მინიმუმ 2 სიმბოლო")
+    .matches(/^[A-Za-z\u10A0-\u10FF]+$/, "სახელი უნდა შეიცავდეს მხოლოდ ასოებს"),
   surname: yup
     .string()
     .required("გვარი აუცილებელია")
-    .min(2, "მინიმუმ 2 სიმბოლო"),
+    .min(2, "მინიმუმ 2 სიმბოლო")
+    .matches(/^[A-Za-z\u10A0-\u10FF]+$/, "სახელი უნდა შეიცავდეს მხოლოდ ასოებს"),
   email: yup
     .string()
     .required("ელ-ფოსტა აუცილებელია")
@@ -57,7 +62,7 @@ const schema = yup.object().shape({
   avatar: yup.mixed().required("ფოტო აუცილებელია"),
 });
 
-const AddAgentForm = () => {
+const AddAgentForm = ({ handleClose }) => {
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [submissionMessage, setSubmissionMessage] = useState(null);
 
@@ -69,6 +74,7 @@ const AddAgentForm = () => {
     setValue,
   } = useForm({
     resolver: yupResolver(schema),
+    mode: "onChange",
   });
 
   const handleAvatarChange = (e) => {
@@ -87,6 +93,7 @@ const AddAgentForm = () => {
   const handleFormReset = () => {
     reset();
     setAvatarPreview(null);
+    handleClose();
   };
 
   const onSubmit = async (data) => {
@@ -111,10 +118,7 @@ const AddAgentForm = () => {
       setSubmissionMessage("აგენტი წარმატებით დაემატა!");
       reset();
       setAvatarPreview(null);
-
-      setTimeout(() => {
-        setSubmissionMessage(null);
-      }, 5000);
+      handleClose();
     } catch (error) {
       setSubmissionMessage("შეცდომა აგენტის დამატებისას.");
     }
@@ -125,31 +129,31 @@ const AddAgentForm = () => {
       {submissionMessage && <p>{submissionMessage}</p>}
 
       <FormField>
-        <Label>სახელი</Label>
+        <Label>სახელი *</Label>
         <input type="text" {...register("name")} />
         {errors.name && <ErrorText>{errors.name.message}</ErrorText>}
       </FormField>
 
       <FormField>
-        <Label>გვარი</Label>
+        <Label>გვარი *</Label>
         <input type="text" {...register("surname")} />
         {errors.surname && <ErrorText>{errors.surname.message}</ErrorText>}
       </FormField>
 
       <FormField>
-        <Label>ელ-ფოსტა</Label>
+        <Label>ელ-ფოსტა *</Label>
         <input type="email" {...register("email")} />
         {errors.email && <ErrorText>{errors.email.message}</ErrorText>}
       </FormField>
 
       <FormField>
-        <Label>ტელეფონის ნომერი</Label>
+        <Label>ტელეფონის ნომერი *</Label>
         <input type="tel" {...register("phone")} />
         {errors.phone && <ErrorText>{errors.phone.message}</ErrorText>}
       </FormField>
 
       <FormField>
-        <Label>ატვირთეთ ფოტო</Label>
+        <Label>ატვირთეთ ფოტო *</Label>
         <input
           id="avatar"
           type="file"
@@ -184,7 +188,7 @@ const AddAgentForm = () => {
         <button type="button" onClick={handleFormReset}>
           გაუქმება
         </button>
-        <button type="submit">დამატება</button>
+        <button type="submit">დაამატე აგენტი</button>
       </ButtonsContainer>
     </FormContainer>
   );
