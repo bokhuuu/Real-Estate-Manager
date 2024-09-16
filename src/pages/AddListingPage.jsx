@@ -1,7 +1,8 @@
 import React from "react";
+import AddListingForm from "../components/forms/AddListingForm";
 
 const AddListingPage = () => {
-  return <div>AddListingPage</div>;
+  return <AddListingForm />;
 };
 
 export default AddListingPage;
