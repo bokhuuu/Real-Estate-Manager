@@ -42,24 +42,24 @@ const ButtonsContainer = styled.div``;
 const schema = yup.object().shape({
   name: yup
     .string()
-    .required("სახელი აუცილებელია")
-    .min(2, "მინიმუმ 2 სიმბოლო")
-    .matches(/^[A-Za-z\u10A0-\u10FF]+$/, "სახელი უნდა შეიცავდეს მხოლოდ ასოებს"),
+    .required("აუცილებელია")
+    .matches(/^[A-Za-z\u10A0-\u10FF]+$/, "სახელი უნდა შეიცავდეს მხოლოდ ასოებს")
+    .min(2, "მინიმუმ 2 სიმბოლო"),
   surname: yup
     .string()
-    .required("გვარი აუცილებელია")
-    .min(2, "მინიმუმ 2 სიმბოლო")
-    .matches(/^[A-Za-z\u10A0-\u10FF]+$/, "სახელი უნდა შეიცავდეს მხოლოდ ასოებს"),
+    .required("აუცილებელია")
+    .matches(/^[A-Za-z\u10A0-\u10FF]+$/, "გვარი უნდა შეიცავდეს მხოლოდ ასოებს")
+    .min(2, "მინიმუმ 2 სიმბოლო"),
   email: yup
     .string()
-    .required("ელ-ფოსტა აუცილებელია")
+    .required("აუცილებელია")
     .email("ელ-ფოსტის არასწორი ფორმატი")
-    .matches(/@redberry\.ge$/, "ელ-ფოსტა უნდა დასრულდეს @redberry.ge-ით"),
+    .matches(/@redberry\.ge$/, "გამოიყენეთ @redberry.ge ფოსტა"),
   phone: yup
     .string()
-    .required("ტელეფონის ნომერი აუცილებელია")
+    .required("აუცილებელია")
     .matches(/^5\d{8}$/, "ფორმატი უნდა იყოს 5XXXXXXXXX"),
-  avatar: yup.mixed().required("ფოტო აუცილებელია"),
+  avatar: yup.mixed().required(),
 });
 
 const AddAgentForm = ({ handleClose }) => {
@@ -115,17 +115,16 @@ const AddAgentForm = ({ handleClose }) => {
           },
         }
       );
-      setSubmissionMessage("აგენტი წარმატებით დაემატა!");
-      reset();
-      setAvatarPreview(null);
+      alert("აგენტი წარმატებით დაემატა");
       handleClose();
     } catch (error) {
-      setSubmissionMessage("შეცდომა აგენტის დამატებისას.");
+      setSubmissionMessage("შეცდომა აგენტის დამატებისას");
     }
   };
 
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)}>
+      <h2>აგენტის დამატება</h2>
       {submissionMessage && <p>{submissionMessage}</p>}
 
       <FormField>
