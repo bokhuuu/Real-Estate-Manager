@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -70,12 +70,50 @@ const AddAgentForm = ({ handleClose }) => {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
     reset,
     setValue,
+    watch,
   } = useForm({
     resolver: yupResolver(schema),
     mode: "onChange",
   });
+
+  const watchAllFields = watch();
+
+  useEffect(() => {
+    const savedFormData = localStorage.getItem("addAgentFormData");
+    const savedErrors = localStorage.getItem("addAgentFormErrors");
+
+    if (savedFormData) {
+      const parsedData = JSON.parse(savedFormData);
+      Object.keys(parsedData).forEach((key) => {
+        setValue(key, parsedData[key]);
+      });
+    }
+
+    if (savedErrors) {
+      const parsedErrors = JSON.parse(savedErrors);
+      Object.keys(parsedErrors).forEach((field) => {
+        setError(field, {
+          type: "manual",
+          message: parsedErrors[field],
+        });
+      });
+    }
+  }, [setValue, setError]);
+
+  useEffect(() => {
+    localStorage.setItem("addAgentFormData", JSON.stringify(watchAllFields));
+
+    if (errors) {
+      const errorMessages = {};
+      Object.keys(errors).forEach((field) => {
+        errorMessages[field] = errors[field]?.message;
+      });
+      localStorage.setItem("addAgentFormErrors", JSON.stringify(errorMessages));
+    }
+  }, [watchAllFields, errors]);
 
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
@@ -93,6 +131,8 @@ const AddAgentForm = ({ handleClose }) => {
   const handleFormReset = () => {
     reset();
     setAvatarPreview(null);
+    localStorage.removeItem("addAgentFormData");
+    localStorage.removeItem("addAgentFormErrors");
     handleClose();
   };
 
@@ -117,6 +157,7 @@ const AddAgentForm = ({ handleClose }) => {
         }
       );
       alert("აგენტი წარმატებით დაემატა");
+      handleFormReset();
       handleClose();
     } catch (error) {
       setSubmissionMessage("შეცდომა აგენტის დამატებისას");

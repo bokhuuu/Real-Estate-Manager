@@ -90,12 +90,51 @@ const AddListingForm = () => {
     reset,
     watch,
     setValue,
+    setError,
   } = useForm({
     resolver: yupResolver(schema),
     mode: "onChange",
   });
 
+  const watchAllFields = watch();
   const selectedRegion = watch("region");
+
+  useEffect(() => {
+    const savedFormData = localStorage.getItem("addListingFormData");
+    const savedErrors = localStorage.getItem("addListingFormErrors");
+
+    if (savedFormData) {
+      const parsedData = JSON.parse(savedFormData);
+      Object.keys(parsedData).forEach((key) => {
+        setValue(key, parsedData[key]);
+      });
+    }
+
+    if (savedErrors) {
+      const parsedErrors = JSON.parse(savedErrors);
+      Object.keys(parsedErrors).forEach((field) => {
+        setError(field, {
+          type: "manual",
+          message: parsedErrors[field],
+        });
+      });
+    }
+  }, [setValue, setError]);
+
+  useEffect(() => {
+    localStorage.setItem("addListingFormData", JSON.stringify(watchAllFields));
+
+    if (errors) {
+      const errorMessages = {};
+      Object.keys(errors).forEach((field) => {
+        errorMessages[field] = errors[field]?.message;
+      });
+      localStorage.setItem(
+        "addListingFormErrors",
+        JSON.stringify(errorMessages)
+      );
+    }
+  }, [watchAllFields, errors]);
 
   useEffect(() => {
     const token = "9d0216df-a6d7-4aba-985c-4256f71f56fc";
@@ -162,6 +201,8 @@ const AddListingForm = () => {
     reset();
     setAvatarPreview(null);
     setErrorMessage("");
+    localStorage.removeItem("addListingFormData");
+    localStorage.removeItem("addListingFormErrors");
     navigate("/");
   };
 
