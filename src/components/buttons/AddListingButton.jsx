@@ -4,12 +4,12 @@ import { Button } from "react-bootstrap";
 const AddListingButton = () => {
   const navigate = useNavigate();
 
-  const handleClickButton = () => {
+  const handleButtonClick = () => {
     navigate("/add-listing");
   };
 
   return (
-    <Button variant="secondary" onClick={handleClickButton}>
+    <Button variant="secondary" onClick={handleButtonClick}>
       ლისტინგის დამატება
     </Button>
   );

@@ -1,5 +1,5 @@
-import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const HeaderContainer = styled.header`
   width: 1920px;
@@ -12,12 +12,19 @@ const HeaderContainer = styled.header`
 const Logo = styled.img`
   width: 150px;
   height: 24px;
+  cursor: pointer;
 `;
 
 const Header = () => {
+  const navigate = useNavigate();
+
+  const handleLogoClick = () => {
+    navigate("/");
+  };
+
   return (
     <HeaderContainer>
-      <Logo src="/src/assets/logo.png" />
+      <Logo src="/src/assets/logo.png" onClick={handleLogoClick} />
     </HeaderContainer>
   );
 };

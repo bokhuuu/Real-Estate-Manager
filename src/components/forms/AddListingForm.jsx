@@ -62,7 +62,13 @@ const schema = yup.object().shape({
     .string()
     .required("აუცილებელია")
     .test("minWords", "მინიმუმ 5 სიტყვა", (value) => {
-      return value && value.trim().split(/\s+/).length >= 5;
+      return (
+        value &&
+        value
+          .trim()
+          .split(/\s+|,+/)
+          .filter(Boolean).length >= 5
+      );
     }),
   avatar: yup.mixed().required(),
 });
