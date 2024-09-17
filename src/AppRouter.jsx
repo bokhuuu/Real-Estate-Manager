@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Header from "./components/Header";
 import ListingsPage from "./pages/ListingsPage";
 import InternalListingPage from "./pages/InternalListingPage";
@@ -12,6 +17,7 @@ const AppRouter = () => {
         <Route path="/" element={<ListingsPage />} />
         <Route path="/internal-listing" element={<InternalListingPage />} />
         <Route path="/add-listing" element={<AddListingPage />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
   );

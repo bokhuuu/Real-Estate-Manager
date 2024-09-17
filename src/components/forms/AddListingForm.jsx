@@ -4,6 +4,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import styled from "styled-components";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const FormContainer = styled.form``;
 
@@ -73,6 +74,8 @@ const AddListingForm = () => {
   const [agents, setAgents] = useState([]);
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+
+  const navigate = useNavigate();
 
   const {
     register,
@@ -153,6 +156,7 @@ const AddListingForm = () => {
     reset();
     setAvatarPreview(null);
     setErrorMessage("");
+    navigate("/");
   };
 
   const onSubmit = async (data) => {
@@ -185,6 +189,7 @@ const AddListingForm = () => {
       reset();
       setAvatarPreview(null);
       alert("ქონება წარმატებით დაემატა");
+      navigate("/");
     } catch (error) {
       alert("შეცდომა ქონების დამატებისას");
     }

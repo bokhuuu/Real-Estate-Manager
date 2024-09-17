@@ -1,11 +1,12 @@
-import React from "react";
 import AddAgenButton from "../components/buttons/AddAgenButton";
+import AddListingButton from "../components/buttons/AddListingButton";
 
 const ListingsPage = () => {
   return (
     <div>
       ListingsPage
       <AddAgenButton />
+      <AddListingButton />
     </div>
   );
 };
