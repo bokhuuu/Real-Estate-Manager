@@ -44,12 +44,13 @@ const ListingsPage = () => {
         const savedRegions = JSON.parse(
           localStorage.getItem("selectedRegions")
         );
-        if (savedRegions && savedRegions.length > 0) {
-          setFilters({ regions: savedRegions });
-          filterListings(fetchedListings, { regions: savedRegions });
-        } else {
-          setFilteredListings(fetchedListings);
-        }
+
+        const savedFilters = {
+          regions: savedRegions || [],
+        };
+
+        setFilters(savedFilters);
+        filterListings(fetchedListings, savedFilters);
       })
       .catch((error) => {
         console.error("Error fetching listings:", error);
@@ -62,14 +63,14 @@ const ListingsPage = () => {
 
   const handleFilterChange = (newFilters) => {
     setFilters(newFilters);
-    localStorage.setItem("selectedRegions", JSON.stringify(newFilters.regions));
+    filterListings(listings, newFilters);
   };
 
   const filterListings = (allListings, activeFilters) => {
     let updatedListings = allListings;
 
     if (activeFilters.regions.length > 0) {
-      updatedListings = allListings.filter((listing) =>
+      updatedListings = updatedListings.filter((listing) =>
         activeFilters.regions.includes(listing.city.region_id)
       );
     }
@@ -87,9 +88,13 @@ const ListingsPage = () => {
       <FilterManager onFilterChange={handleFilterChange} />
 
       <ListingsContainer>
-        {filteredListings.map((listing) => (
-          <ListingCard key={listing.id} listing={listing} />
-        ))}
+        {filteredListings.length > 0 ? (
+          filteredListings.map((listing) => (
+            <ListingCard key={listing.id} listing={listing} />
+          ))
+        ) : (
+          <p>According to the mentioned data, no application was found</p>
+        )}
       </ListingsContainer>
     </PageContainer>
   );
