@@ -7,7 +7,7 @@ const CardContainer = styled.div`
   padding: 15px;
 `;
 
-const IconTextContainer = styled.div`
+const IconFeatureContainer = styled.div`
   display: flex;
 `;
 
@@ -17,19 +17,19 @@ const ListingCard = ({ listing }) => {
       <img src={listing.image} style={{ width: "100%" }} />
       <p>{listing.is_rental ? "იყიდება" : "ქირავდება"}</p>
 
-      <IconTextContainer>
+      <IconFeatureContainer>
         <p>{listing.price}</p>
-      </IconTextContainer>
+      </IconFeatureContainer>
 
-      <IconTextContainer>
+      <IconFeatureContainer>
         <p>{`${listing.city.name}, ${listing.address}`}</p>
-      </IconTextContainer>
+      </IconFeatureContainer>
 
-      <IconTextContainer>
+      <IconFeatureContainer>
         <p>{listing.bedrooms}</p>
         {listing.area} მ<sup>2</sup>
         <p>{listing.zip_code}</p>
-      </IconTextContainer>
+      </IconFeatureContainer>
     </CardContainer>
   );
 };
