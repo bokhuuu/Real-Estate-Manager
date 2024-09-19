@@ -124,7 +124,7 @@ const PriceFilter = ({ onFilterChange }) => {
       <SelectedPricesContainer>
         {(price.min || price.max) && (
           <PriceItem>
-            {`${price.min || "აირჩიეთ"} - ${price.max || "აირჩიეთ"}`}{" "}
+            {`${price.min || "აირჩიეთ მინ."} - ${price.max || "აირჩიეთ მაქს."}`}{" "}
             <span onClick={handleRemovePrice}>X</span>
           </PriceItem>
         )}

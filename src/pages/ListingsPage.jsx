@@ -24,6 +24,7 @@ const ListingsPage = () => {
   const [filters, setFilters] = useState({
     regions: [],
     price: { min: "", max: "" },
+    area: { min: "", max: "" },
   });
 
   useEffect(() => {
@@ -45,11 +46,14 @@ const ListingsPage = () => {
         const savedRegions = JSON.parse(
           localStorage.getItem("selectedRegions")
         );
+
         const savedPrice = JSON.parse(localStorage.getItem("selectedPrice"));
+        const savedArea = JSON.parse(localStorage.getItem("selectedArea"));
 
         const savedFilters = {
           regions: savedRegions || [],
           price: savedPrice || { min: "", max: "" },
+          area: savedArea || { min: "", max: "" },
         };
 
         setFilters(savedFilters);
@@ -66,7 +70,6 @@ const ListingsPage = () => {
 
   const handleFilterChange = (newFilters) => {
     setFilters(newFilters);
-    filterListings(listings, newFilters);
   };
 
   const filterListings = (allListings, activeFilters) => {
@@ -86,6 +89,18 @@ const ListingsPage = () => {
             : true) &&
           (activeFilters.price.max
             ? listing.price <= activeFilters.price.max
+            : true)
+      );
+    }
+
+    if (activeFilters.area.min || activeFilters.area.max) {
+      updatedListings = updatedListings.filter(
+        (listing) =>
+          (activeFilters.area.min
+            ? listing.area >= activeFilters.area.min
+            : true) &&
+          (activeFilters.area.max
+            ? listing.area <= activeFilters.area.max
             : true)
       );
     }

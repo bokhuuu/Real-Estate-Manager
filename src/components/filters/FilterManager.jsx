@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import RegionFilter from "./RegionFilter";
 import PriceFilter from "./PriceFilter";
+import AreaFilter from "./AreaFilter";
 
 const FiltersContainer = styled.div``;
 
@@ -9,6 +10,7 @@ const FilterManager = ({ onFilterChange }) => {
   const [filters, setFilters] = useState({
     regions: [],
     price: { min: "", max: "" },
+    area: { min: "", max: "" },
   });
 
   const handleFilterChange = (type, value) => {
@@ -28,6 +30,10 @@ const FilterManager = ({ onFilterChange }) => {
 
         <PriceFilter
           onFilterChange={(price) => handleFilterChange("price", price)}
+        />
+
+        <AreaFilter
+          onFilterChange={(area) => handleFilterChange("area", area)}
         />
       </FiltersContainer>
     </div>
