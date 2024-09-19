@@ -25,6 +25,7 @@ const ListingsPage = () => {
     regions: [],
     price: { min: "", max: "" },
     area: { min: "", max: "" },
+    bedrooms: "",
   });
 
   useEffect(() => {
@@ -41,7 +42,7 @@ const ListingsPage = () => {
       )
       .then((response) => {
         const fetchedListings = response.data;
-        setListings(response.data);
+        setListings(fetchedListings);
 
         const savedRegions = JSON.parse(
           localStorage.getItem("selectedRegions")
@@ -49,11 +50,13 @@ const ListingsPage = () => {
 
         const savedPrice = JSON.parse(localStorage.getItem("selectedPrice"));
         const savedArea = JSON.parse(localStorage.getItem("selectedArea"));
+        const savedBedrooms = localStorage.getItem("selectedBedrooms");
 
         const savedFilters = {
           regions: savedRegions || [],
           price: savedPrice || { min: "", max: "" },
           area: savedArea || { min: "", max: "" },
+          bedrooms: savedBedrooms || "",
         };
 
         setFilters(savedFilters);
@@ -102,6 +105,12 @@ const ListingsPage = () => {
           (activeFilters.area.max
             ? listing.area <= activeFilters.area.max
             : true)
+      );
+    }
+
+    if (activeFilters.bedrooms) {
+      updatedListings = updatedListings.filter(
+        (listing) => listing.bedrooms === Number(activeFilters.bedrooms)
       );
     }
 
