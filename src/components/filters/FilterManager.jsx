@@ -1,29 +1,34 @@
 import { useState } from "react";
 import styled from "styled-components";
-import AreaFilter from "./AreaFilter";
-import BedroomFilter from "./BedroomFilter";
-import PriceFilter from "./PriceFilter";
 import RegionFilter from "./RegionFilter";
+import PriceFilter from "./PriceFilter";
 
 const FiltersContainer = styled.div``;
 
 const FilterManager = ({ onFilterChange }) => {
   const [filters, setFilters] = useState({
     regions: [],
+    price: { min: "", max: "" },
   });
 
-  const handleRegionFilterChange = (selectedRegions) => {
-    const updatedFilters = { ...filters, regions: selectedRegions };
+  const handleFilterChange = (type, value) => {
+    const updatedFilters = { ...filters, [type]: value };
     setFilters(updatedFilters);
     onFilterChange(updatedFilters);
   };
+
   return (
     <div>
       <FiltersContainer>
-        <RegionFilter onFilterChange={handleRegionFilterChange} />
-        <PriceFilter onFilterChange={onFilterChange} />
-        <AreaFilter onFilterChange={onFilterChange} />
-        <BedroomFilter onFilterChange={onFilterChange} />
+        <RegionFilter
+          onFilterChange={(selectedRegions) =>
+            handleFilterChange("regions", selectedRegions)
+          }
+        />
+
+        <PriceFilter
+          onFilterChange={(price) => handleFilterChange("price", price)}
+        />
       </FiltersContainer>
     </div>
   );

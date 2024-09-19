@@ -69,10 +69,10 @@ const RegionFilter = ({ onFilterChange }) => {
     setShowFilter(false);
   };
 
-  const handleClearAll = () => {
-    setSelectedRegions([]);
-    onFilterChange([]);
-  };
+  // const handleClearAll = () => {
+  //   setSelectedRegions([]);
+  //   onFilterChange([]);
+  // };
 
   const handleRemoveRegion = (regionId) => {
     const updatedSelection = selectedRegions.filter((id) => id !== regionId);
@@ -116,9 +116,9 @@ const RegionFilter = ({ onFilterChange }) => {
             </RegionItem>
           );
         })}
-        {selectedRegions.length > 0 && (
+        {/* {selectedRegions.length > 0 && (
           <Button onClick={handleClearAll}>გასუფთავება</Button>
-        )}
+        )} */}
       </SelectedRegionsContainer>
     </FilterContainer>
   );

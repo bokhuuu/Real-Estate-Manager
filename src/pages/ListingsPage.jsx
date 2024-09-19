@@ -23,6 +23,7 @@ const ListingsPage = () => {
   const [filteredListings, setFilteredListings] = useState([]);
   const [filters, setFilters] = useState({
     regions: [],
+    price: { min: "", max: "" },
   });
 
   useEffect(() => {
@@ -44,9 +45,11 @@ const ListingsPage = () => {
         const savedRegions = JSON.parse(
           localStorage.getItem("selectedRegions")
         );
+        const savedPrice = JSON.parse(localStorage.getItem("selectedPrice"));
 
         const savedFilters = {
           regions: savedRegions || [],
+          price: savedPrice || { min: "", max: "" },
         };
 
         setFilters(savedFilters);
@@ -75,6 +78,18 @@ const ListingsPage = () => {
       );
     }
 
+    if (activeFilters.price.min || activeFilters.price.max) {
+      updatedListings = updatedListings.filter(
+        (listing) =>
+          (activeFilters.price.min
+            ? listing.price >= activeFilters.price.min
+            : true) &&
+          (activeFilters.price.max
+            ? listing.price <= activeFilters.price.max
+            : true)
+      );
+    }
+
     setFilteredListings(updatedListings);
   };
 
@@ -93,7 +108,7 @@ const ListingsPage = () => {
             <ListingCard key={listing.id} listing={listing} />
           ))
         ) : (
-          <p>According to the mentioned data, no application was found</p>
+          <p>აღნიშნული მონაცემებით განცხადება არ მოიძებნა</p>
         )}
       </ListingsContainer>
     </PageContainer>
