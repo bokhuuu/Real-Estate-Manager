@@ -214,7 +214,7 @@ const AddListingForm = () => {
     formData.append("area", data.area);
     formData.append("bedrooms", data.bedrooms);
     formData.append("description", data.description);
-    formData.append("is_rental", data.saleRent === "rent" ? "1" : "0");
+    formData.append("is_rental", data.saleRent === "rent" ? "0" : "1");
     formData.append("region_id", data.region);
     formData.append("city_id", data.city);
     formData.append("agent_id", data.agent);

@@ -15,7 +15,7 @@ const AppRouter = () => {
       <Header />
       <Routes>
         <Route path="/" element={<ListingsPage />} />
-        <Route path="/internal-listing" element={<InternalListingPage />} />
+        <Route path="/listing/:id" element={<InternalListingPage />} />
         <Route path="/add-listing" element={<AddListingPage />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

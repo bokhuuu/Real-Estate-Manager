@@ -1,7 +1,8 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const CardContainer = styled.div`
-  width: 22%;
+  width: 200px;
   border: 1px solid #ddd;
   margin: 10px;
   padding: 15px;
@@ -12,9 +13,14 @@ const IconFeatureContainer = styled.div`
 `;
 
 const ListingCard = ({ listing }) => {
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    navigate(`/listing/${listing.id}`);
+  };
   return (
-    <CardContainer>
-      <img src={listing.image} style={{ width: "100%" }} />
+    <CardContainer onClick={handleCardClick}>
+      <img src={listing.image} style={{ width: "50%" }} />
       <p>{listing.is_rental ? "იყიდება" : "ქირავდება"}</p>
 
       <IconFeatureContainer>
