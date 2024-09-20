@@ -71,6 +71,7 @@ const schema = yup.object().shape({
       );
     }),
   avatar: yup.mixed().required(),
+  agent: yup.string().required("აუცილებელია აირჩიოთ აგენტი"),
 });
 
 const AddListingForm = () => {
@@ -235,6 +236,8 @@ const AddListingForm = () => {
       );
       reset();
       setAvatarPreview(null);
+      localStorage.removeItem("addListingFormData");
+      localStorage.removeItem("addListingFormErrors");
       alert("ქონება წარმატებით დაემატა");
       navigate("/");
     } catch (error) {
