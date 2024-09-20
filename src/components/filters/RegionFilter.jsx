@@ -29,7 +29,7 @@ const ArrowButton = styled.img`
   width: 20px;
 `;
 
-const RegionFilter = ({ onFilterChange }) => {
+const RegionFilter = ({ onFilterChange, clearAll }) => {
   const [regions, setRegions] = useState([]);
   const [selectedRegions, setSelectedRegions] = useState([]);
   const [showFilter, setShowFilter] = useState(false);
@@ -57,6 +57,14 @@ const RegionFilter = ({ onFilterChange }) => {
     localStorage.setItem("selectedRegions", JSON.stringify(selectedRegions));
   }, [selectedRegions]);
 
+  useEffect(() => {
+    if (clearAll) {
+      setSelectedRegions([]);
+      onFilterChange([]);
+      localStorage.removeItem("selectedRegions");
+    }
+  }, [clearAll]);
+
   const handleRegionToggle = (regionId) => {
     const updatedSelection = selectedRegions.includes(regionId)
       ? selectedRegions.filter((id) => id !== regionId)
@@ -68,11 +76,6 @@ const RegionFilter = ({ onFilterChange }) => {
     onFilterChange(selectedRegions);
     setShowFilter(false);
   };
-
-  // const handleClearAll = () => {
-  //   setSelectedRegions([]);
-  //   onFilterChange([]);
-  // };
 
   const handleRemoveRegion = (regionId) => {
     const updatedSelection = selectedRegions.filter((id) => id !== regionId);
@@ -116,9 +119,6 @@ const RegionFilter = ({ onFilterChange }) => {
             </RegionItem>
           );
         })}
-        {/* {selectedRegions.length > 0 && (
-          <Button onClick={handleClearAll}>გასუფთავება</Button>
-        )} */}
       </SelectedRegionsContainer>
     </FilterContainer>
   );

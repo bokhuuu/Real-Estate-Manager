@@ -23,7 +23,7 @@ const ArrowButton = styled.img`
   width: 20px;
 `;
 
-const AreaFilter = ({ onFilterChange }) => {
+const AreaFilter = ({ onFilterChange, clearAll }) => {
   const [showFilter, setShowFilter] = useState(false);
   const [area, setArea] = useState({ min: "", max: "" });
   const [errorMessage, setErrorMessage] = useState("");
@@ -41,6 +41,14 @@ const AreaFilter = ({ onFilterChange }) => {
       localStorage.setItem("selectedArea", JSON.stringify(area));
     }
   }, [area]);
+
+  useEffect(() => {
+    if (clearAll) {
+      setArea({ min: "", max: "" });
+      onFilterChange({ min: "", max: "" });
+      localStorage.removeItem("selectedArea");
+    }
+  }, [clearAll]);
 
   const handleApplyFilters = () => {
     if (area.min && area.max && Number(area.min) > Number(area.max)) {

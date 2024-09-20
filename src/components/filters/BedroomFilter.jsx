@@ -13,7 +13,7 @@ const ArrowButton = styled.img`
   width: 20px;
 `;
 
-const BedroomFilter = ({ onFilterChange }) => {
+const BedroomFilter = ({ onFilterChange, clearAll }) => {
   const [showFilter, setShowFilter] = useState(false);
   const [bedrooms, setBedrooms] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -31,6 +31,14 @@ const BedroomFilter = ({ onFilterChange }) => {
       localStorage.setItem("selectedBedrooms", bedrooms);
     }
   }, [bedrooms]);
+
+  useEffect(() => {
+    if (clearAll) {
+      setBedrooms("");
+      onFilterChange("");
+      localStorage.removeItem("selectedBedrooms");
+    }
+  }, [clearAll]);
 
   const handleApplyFilters = () => {
     if (bedrooms === "" || bedrooms < 1) {

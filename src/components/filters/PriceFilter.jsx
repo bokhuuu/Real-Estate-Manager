@@ -23,7 +23,7 @@ const ArrowButton = styled.img`
   width: 20px;
 `;
 
-const PriceFilter = ({ onFilterChange }) => {
+const PriceFilter = ({ onFilterChange, clearAll }) => {
   const [showFilter, setShowFilter] = useState(false);
   const [price, setPrice] = useState({ min: "", max: "" });
   const [errorMessage, setErrorMessage] = useState("");
@@ -41,6 +41,14 @@ const PriceFilter = ({ onFilterChange }) => {
       localStorage.setItem("selectedPrice", JSON.stringify(price));
     }
   }, [price]);
+
+  useEffect(() => {
+    if (clearAll) {
+      setPrice({ min: "", max: "" });
+      onFilterChange({ min: "", max: "" });
+      localStorage.removeItem("selectedPrice");
+    }
+  }, [clearAll]);
 
   const handleApplyFilters = () => {
     if (price.min && price.max && Number(price.min) > Number(price.max)) {
