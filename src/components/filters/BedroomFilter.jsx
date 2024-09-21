@@ -13,6 +13,28 @@ const ArrowButton = styled.img`
   width: 20px;
 `;
 
+const SelectedBedroomContainer = styled.div`
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+const BedroomItem = styled.div`
+  background-color: #f0f0f0;
+  margin-right: 10px;
+  padding: 5px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+`;
+
 const BedroomFilter = ({ onFilterChange, clearAll }) => {
   const [showFilter, setShowFilter] = useState(false);
   const [bedrooms, setBedrooms] = useState("");
@@ -64,7 +86,7 @@ const BedroomFilter = ({ onFilterChange, clearAll }) => {
       </div>
 
       {showFilter && (
-        <div>
+        <InputContainer>
           <input
             type="number"
             placeholder="-"
@@ -79,14 +101,16 @@ const BedroomFilter = ({ onFilterChange, clearAll }) => {
           >
             არჩევა
           </StyledButton>
-        </div>
+        </InputContainer>
       )}
 
       {bedrooms && (
-        <div>
-          <span>{bedrooms} საძინებელი</span>{" "}
-          <span onClick={handleRemoveBedrooms}>X</span>
-        </div>
+        <SelectedBedroomContainer>
+          <BedroomItem>
+            {`${bedrooms} საძინებელი`}{" "}
+            <span onClick={handleRemoveBedrooms}>X</span>
+          </BedroomItem>
+        </SelectedBedroomContainer>
       )}
     </FilterContainer>
   );

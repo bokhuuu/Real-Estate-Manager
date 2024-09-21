@@ -1,10 +1,24 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import styled from "styled-components";
 import ListingCard from "../components/cards/ListingCard";
 import Slider from "react-slick";
-import { useNavigate } from "react-router-dom";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+
+const SliderContainer = styled.div`
+  width: 1595px;
+  height: 455px;
+  margin-top: 30px;
+`;
+
+const SliderTitle = styled.h5`
+  font-family: "FiraGO", sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  text-align: left;
+`;
 
 const ListingsSlider = ({ regionId, currentListingId }) => {
   const [listings, setListings] = useState([]);
@@ -46,18 +60,20 @@ const ListingsSlider = ({ regionId, currentListingId }) => {
 
   return (
     <>
-      <h5>ბინები მსგავს ლოკაციაზე</h5>
-      <Slider {...settings}>
-        {listings.map((listing) => (
-          <div
-            key={listing.id}
-            onClick={() => navigate(`/listing/${listing.id}`)}
-            style={{ padding: "10px" }}
-          >
-            <ListingCard listing={listing} />
-          </div>
-        ))}
-      </Slider>
+      <SliderTitle>ბინები მსგავს ლოკაციაზე</SliderTitle>
+      <SliderContainer>
+        <Slider {...settings}>
+          {listings.map((listing) => (
+            <div
+              key={listing.id}
+              onClick={() => navigate(`/listing/${listing.id}`)}
+              style={{ padding: "10px" }}
+            >
+              <ListingCard listing={listing} />
+            </div>
+          ))}
+        </Slider>
+      </SliderContainer>
     </>
   );
 };

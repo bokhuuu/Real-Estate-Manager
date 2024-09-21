@@ -6,7 +6,9 @@ import PriceFilter from "./PriceFilter";
 import AreaFilter from "./AreaFilter";
 import BedroomFilter from "./BedroomFilter";
 
-const FiltersContainer = styled.div``;
+const FiltersContainer = styled.div`
+  display: flex;
+`;
 
 const FilterManager = ({ onFilterChange }) => {
   const [filters, setFilters] = useState({

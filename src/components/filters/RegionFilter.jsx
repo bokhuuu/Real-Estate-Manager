@@ -7,6 +7,7 @@ import upArrow from "../../assets/icons/upArrow.png";
 
 const FilterContainer = styled.div`
   margin-bottom: 20px;
+  position: relative;
 `;
 
 const SelectedRegionsContainer = styled.div`
@@ -27,6 +28,38 @@ const RegionItem = styled.div`
 const ArrowButton = styled.img`
   cursor: pointer;
   width: 20px;
+  margin-left: 10px;
+`;
+
+const FilterCard = styled.div`
+  position: absolute;
+  top: 35px;
+  left: 0;
+  width: 500px;
+  background-color: white;
+  border: 1px solid #ddd;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+`;
+
+const RegionGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+`;
+
+const CheckboxLabel = styled.label`
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+`;
+
+const RegionCheckbox = styled.input`
+  margin-right: 10px;
 `;
 
 const RegionFilter = ({ onFilterChange, clearAll }) => {
@@ -91,17 +124,20 @@ const RegionFilter = ({ onFilterChange, clearAll }) => {
       </div>
 
       {showFilter && (
-        <div>
-          {regions.map((region) => (
-            <label key={region.id}>
-              <input
-                type="checkbox"
-                checked={selectedRegions.includes(region.id)}
-                onChange={() => handleRegionToggle(region.id)}
-              />
-              {region.name}
-            </label>
-          ))}
+        <FilterCard>
+          <RegionGrid>
+            {regions.map((region) => (
+              <CheckboxLabel key={region.id}>
+                <RegionCheckbox
+                  type="checkbox"
+                  checked={selectedRegions.includes(region.id)}
+                  onChange={() => handleRegionToggle(region.id)}
+                />
+                {region.name}
+              </CheckboxLabel>
+            ))}
+          </RegionGrid>
+
           <StyledButton
             $variant="primary"
             style={{ width: "70px", height: "25px" }}
@@ -109,7 +145,7 @@ const RegionFilter = ({ onFilterChange, clearAll }) => {
           >
             არჩევა
           </StyledButton>
-        </div>
+        </FilterCard>
       )}
 
       <SelectedRegionsContainer>

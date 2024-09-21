@@ -235,14 +235,14 @@ const AddAgentForm = ({ handleClose }) => {
 
       <ButtonsContainer>
         <StyledButton
-          $variant={"primary"}
+          $variant="primary"
           style={{ width: "105px", height: "45px" }}
           onClick={handleFormReset}
         >
           გაუქმება
         </StyledButton>
         <StyledButton
-          $variant={buttonVariant}
+          $variant="primary"
           style={{ width: "105px", height: "45px" }}
           onClick={handleSubmitClick}
         >

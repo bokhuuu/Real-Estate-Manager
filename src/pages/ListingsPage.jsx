@@ -7,15 +7,27 @@ import ListingCard from "../components/cards/ListingCard";
 import FilterManager from "../components/filters/FilterManager";
 
 const PageContainer = styled.div`
-  padding: 20px;
+  padding: 10px;
+`;
+
+const HeaderContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
 `;
 
 const ButtonsContainer = styled.div`
   display: flex;
+  gap: 10px;
 `;
 
 const ListingsContainer = styled.div`
-  display: flex;
+  height: auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 cards in a row */
+  gap: 20px;
 `;
 
 const ListingsPage = () => {
@@ -119,12 +131,13 @@ const ListingsPage = () => {
 
   return (
     <PageContainer>
-      <ButtonsContainer>
-        <AddAgenButton />
-        <AddListingButton />
-      </ButtonsContainer>
-
-      <FilterManager onFilterChange={handleFilterChange} />
+      <HeaderContainer>
+        <FilterManager onFilterChange={handleFilterChange} />
+        <ButtonsContainer>
+          <AddAgenButton />
+          <AddListingButton />
+        </ButtonsContainer>
+      </HeaderContainer>
 
       <ListingsContainer>
         {filteredListings.length > 0 ? (

@@ -39,8 +39,7 @@ const InternalListingPage = () => {
       )
       .then((response) => {
         navigate("/");
-      })
-      .catch((error) => {});
+      });
   };
 
   if (!listing) {

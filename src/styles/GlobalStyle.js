@@ -9,9 +9,8 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: 'FiraGO', sans-serif;
-    font-weight: 500;
-    font-size: 16px;
     line-height: 20px;
+    padding: 0 165px 
   }
 
   #root {
