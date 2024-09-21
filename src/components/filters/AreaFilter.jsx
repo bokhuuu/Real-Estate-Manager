@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Button } from "react-bootstrap";
+import StyledButton from "../../styles/StyledButton";
 import downArrow from "../../assets/icons/downArrow.png";
 import upArrow from "../../assets/icons/upArrow.png";
 
@@ -105,7 +105,13 @@ const AreaFilter = ({ onFilterChange, clearAll }) => {
             <button onClick={() => setArea({ ...area, max: 200 })}>200</button>
             <button onClick={() => setArea({ ...area, max: 300 })}>300</button>
           </div>
-          <Button onClick={handleApplyFilters}>არჩევა</Button>
+          <StyledButton
+            $variant="primary"
+            style={{ width: "70px", height: "25px" }}
+            onClick={handleApplyFilters}
+          >
+            არჩევა
+          </StyledButton>
         </div>
       )}
 

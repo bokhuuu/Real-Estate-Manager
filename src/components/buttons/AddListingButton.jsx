@@ -1,17 +1,20 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import StyledButton from "../../styles/StyledButton";
 
 const AddListingButton = () => {
+  const [buttonVariant, setButtonVariant] = useState("primary");
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
     navigate("/add-listing");
+    setButtonVariant("secondary");
   };
 
   return (
-    <Button variant="secondary" onClick={handleButtonClick}>
+    <StyledButton $variant={buttonVariant} onClick={handleButtonClick}>
       ლისტინგის დამატება
-    </Button>
+    </StyledButton>
   );
 };
 

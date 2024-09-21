@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import { Button } from "react-bootstrap";
+import StyledButton from "../../styles/StyledButton";
 import downArrow from "../../assets/icons/downArrow.png";
 import upArrow from "../../assets/icons/upArrow.png";
 
@@ -102,7 +102,13 @@ const RegionFilter = ({ onFilterChange, clearAll }) => {
               {region.name}
             </label>
           ))}
-          <Button onClick={handleApplyFilters}>არჩევა</Button>
+          <StyledButton
+            $variant="primary"
+            style={{ width: "70px", height: "25px" }}
+            onClick={handleApplyFilters}
+          >
+            არჩევა
+          </StyledButton>
         </div>
       )}
 

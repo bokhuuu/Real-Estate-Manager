@@ -45,17 +45,20 @@ const ListingsSlider = ({ regionId, currentListingId }) => {
   };
 
   return (
-    <Slider {...settings}>
-      {listings.map((listing) => (
-        <div
-          key={listing.id}
-          onClick={() => navigate(`/listing/${listing.id}`)}
-          style={{ padding: "10px" }}
-        >
-          <ListingCard listing={listing} />
-        </div>
-      ))}
-    </Slider>
+    <>
+      <h5>ბინები მსგავს ლოკაციაზე</h5>
+      <Slider {...settings}>
+        {listings.map((listing) => (
+          <div
+            key={listing.id}
+            onClick={() => navigate(`/listing/${listing.id}`)}
+            style={{ padding: "10px" }}
+          >
+            <ListingCard listing={listing} />
+          </div>
+        ))}
+      </Slider>
+    </>
   );
 };
 

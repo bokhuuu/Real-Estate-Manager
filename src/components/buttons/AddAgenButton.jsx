@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { Button } from "react-bootstrap";
 import AddAgentModal from "../modals/AddAgentModal";
+import StyledButton from "../../styles/StyledButton";
 
 const AddAgenButton = () => {
   const [showModal, setShowModal] = useState(false);
+  const [buttonVariant, setButtonVariant] = useState("primary");
 
   useEffect(() => {
     const savedModalState = localStorage.getItem("showModal");
@@ -16,17 +17,22 @@ const AddAgenButton = () => {
     localStorage.setItem("showModal", showModal);
   }, [showModal]);
 
-  const handleOpenModal = () => setShowModal(true);
+  const handleOpenModal = () => {
+    setShowModal(true);
+    setButtonVariant("secondary");
+  };
+
   const handleCloseModal = () => {
     setShowModal(false);
+    setButtonVariant("primary");
     localStorage.removeItem("showModal");
   };
 
   return (
     <div>
-      <Button variant="primary" onClick={handleOpenModal}>
+      <StyledButton $variant={buttonVariant} onClick={handleOpenModal}>
         აგენტის დამატება
-      </Button>
+      </StyledButton>
 
       <AddAgentModal show={showModal} handleClose={handleCloseModal} />
     </div>

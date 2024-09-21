@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "react-bootstrap";
+import StyledButton from "../../styles/StyledButton";
 import styled from "styled-components";
 import RegionFilter from "./RegionFilter";
 import PriceFilter from "./PriceFilter";
@@ -15,7 +15,6 @@ const FilterManager = ({ onFilterChange }) => {
     area: { min: "", max: "" },
     bedrooms: "",
   });
-
   const [clearAll, setClearAll] = useState(false);
 
   const handleFilterChange = (type, value) => {
@@ -66,9 +65,13 @@ const FilterManager = ({ onFilterChange }) => {
           clearAll={clearAll}
         />
 
-        <Button variant="danger" onClick={handleClearAll}>
+        <StyledButton
+          $variant="primary"
+          style={{ width: "115px", height: "45px" }}
+          onClick={handleClearAll}
+        >
           გასუფთავება
-        </Button>
+        </StyledButton>
       </FiltersContainer>
     </div>
   );

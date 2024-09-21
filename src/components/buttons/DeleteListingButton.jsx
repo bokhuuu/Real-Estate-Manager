@@ -1,10 +1,18 @@
-import { Button } from "react-bootstrap";
+import { useState } from "react";
+import StyledButton from "../../styles/StyledButton";
 
 const DeleteListingButton = ({ onClick }) => {
+  const [buttonVariant, setButtonVariant] = useState("primary");
+
+  const handleButtonClick = () => {
+    onClick();
+    setButtonVariant("secondary");
+  };
+
   return (
-    <Button variant="danger" onClick={onClick}>
+    <StyledButton $variant={buttonVariant} onClick={handleButtonClick}>
       ლისტინგის წაშლა
-    </Button>
+    </StyledButton>
   );
 };
 

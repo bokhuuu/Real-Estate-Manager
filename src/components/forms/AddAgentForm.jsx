@@ -4,6 +4,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import styled from "styled-components";
 import axios from "axios";
+import StyledButton from "../../styles/StyledButton";
 
 const FormContainer = styled.form``;
 
@@ -37,7 +38,9 @@ const AvatarPreview = styled.img``;
 
 const DeleteIcon = styled.button``;
 
-const ButtonsContainer = styled.div``;
+const ButtonsContainer = styled.div`
+  display: flex;
+`;
 
 const schema = yup.object().shape({
   name: yup
@@ -65,6 +68,7 @@ const schema = yup.object().shape({
 const AddAgentForm = ({ handleClose }) => {
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [submissionMessage, setSubmissionMessage] = useState(null);
+  const [buttonVariant, setButtonVariant] = useState("primary");
 
   const {
     register,
@@ -164,6 +168,10 @@ const AddAgentForm = ({ handleClose }) => {
     }
   };
 
+  const handleSubmitClick = () => {
+    setButtonVariant("secondary");
+  };
+
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)}>
       <h2>აგენტის დამატება</h2>
@@ -226,10 +234,20 @@ const AddAgentForm = ({ handleClose }) => {
       </FormField>
 
       <ButtonsContainer>
-        <button type="button" onClick={handleFormReset}>
+        <StyledButton
+          $variant={"primary"}
+          style={{ width: "105px", height: "45px" }}
+          onClick={handleFormReset}
+        >
           გაუქმება
-        </button>
-        <button type="submit">დაამატე აგენტი</button>
+        </StyledButton>
+        <StyledButton
+          $variant={buttonVariant}
+          style={{ width: "105px", height: "45px" }}
+          onClick={handleSubmitClick}
+        >
+          დაამატე აგენტი
+        </StyledButton>
       </ButtonsContainer>
     </FormContainer>
   );

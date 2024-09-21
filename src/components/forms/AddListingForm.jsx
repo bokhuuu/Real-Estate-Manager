@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import styled from "styled-components";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import StyledButton from "../../styles/StyledButton";
 
 const FormContainer = styled.form``;
 
@@ -37,7 +38,9 @@ const AvatarPreview = styled.img``;
 
 const DeleteIcon = styled.button``;
 
-const ButtonsContainer = styled.div``;
+const ButtonsContainer = styled.div`
+  display: flex;
+`;
 
 const schema = yup.object().shape({
   saleRent: yup.string().required("აუცილებელია აირჩიოთ იყიდება ან ქირავდება"),
@@ -81,6 +84,7 @@ const AddListingForm = () => {
   const [agents, setAgents] = useState([]);
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [buttonVariant, setButtonVariant] = useState("primary");
 
   const navigate = useNavigate();
 
@@ -245,6 +249,10 @@ const AddListingForm = () => {
     }
   };
 
+  const handleSubmitClick = () => {
+    setButtonVariant("secondary");
+  };
+
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)}>
       <h2>ლისტინგის დამატება</h2>
@@ -346,6 +354,7 @@ const AddListingForm = () => {
               <AvatarPreviewContainer>
                 <AvatarPreview src={avatarPreview} />
                 <DeleteIcon
+                  $variant="secondary"
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -375,10 +384,21 @@ const AddListingForm = () => {
       </FormField>
 
       <ButtonsContainer>
-        <button type="button" onClick={handleFormReset}>
+        <StyledButton
+          $variant={"primary"}
+          style={{ width: "105px", height: "45px" }}
+          onClick={handleFormReset}
+        >
           გაუქმება
-        </button>
-        <button type="submit">დაამატე ლისტინგი</button>
+        </StyledButton>
+        <StyledButton
+          $variant={buttonVariant}
+          style={{ width: "105px", height: "45px" }}
+          type="submit"
+          onClick={handleSubmitClick}
+        >
+          დაამატე ლისტინგი
+        </StyledButton>
       </ButtonsContainer>
     </FormContainer>
   );
