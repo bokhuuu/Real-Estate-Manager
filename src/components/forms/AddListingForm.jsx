@@ -7,23 +7,90 @@ import axios from "axios";
 import styled from "styled-components";
 import StyledButton from "../../styles/StyledButton";
 
-const FormContainer = styled.form``;
+const PageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  max-width: 1596px;
+  width: 100%;
+  height: auto;
+  margin: 20px auto;
+  align-items: center;
+`;
 
-const FormField = styled.div``;
+const FormContainer = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  width: 790px;
+  gap: 8px;
+`;
 
-const Label = styled.label``;
+const FormHeader = styled.h5`
+  font-family: "FiraGO", sans-serif;
+  font-weight: 700;
+  font-size: 32px;
+  margin-bottom: 20px;
+  align-self: center;
+`;
+
+const InputGroup = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+`;
+
+const FormField = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 10px;
+
+  select {
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+  }
+`;
+
+const HalfWidthField = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 48%;
+  margin-bottom: 10px;
+
+  input,
+  select {
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+  }
+`;
+
+const FullWidthField = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 10px;
+`;
+
+const Label = styled.label`
+  font-family: "FiraGO", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  margin-bottom: 8px;
+`;
 
 const ErrorText = styled.p`
   color: red;
 `;
+
 const AvatarTextArea = styled.div`
-  width: 150px;
-  height: 150px;
-  border: 2px dashed #ccc;
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
+  width: 100%;
+  height: 100px;
+  border: 2px dashed #ccc;
   cursor: pointer;
 `;
 
@@ -32,14 +99,33 @@ const PlusIcon = styled.span`
   color: #ccc;
 `;
 
-const AvatarPreviewContainer = styled.div``;
+const AvatarPreview = styled.img`
+  width: 100%;
+  height: 100%;
+`;
 
-const AvatarPreview = styled.img``;
+const DeleteIcon = styled.button`
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+`;
 
-const DeleteIcon = styled.button``;
+const RadioButtonGroup = styled.div`
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 15px;
+`;
 
 const ButtonsContainer = styled.div`
   display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 15px;
+  gap: 20px;
 `;
 
 const schema = yup.object().shape({
@@ -84,7 +170,6 @@ const AddListingForm = () => {
   const [agents, setAgents] = useState([]);
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
-  const [buttonVariant, setButtonVariant] = useState("primary");
 
   const navigate = useNavigate();
 
@@ -249,158 +334,157 @@ const AddListingForm = () => {
     }
   };
 
-  const handleSubmitClick = () => {
-    setButtonVariant("secondary");
-  };
-
   return (
-    <FormContainer onSubmit={handleSubmit(onSubmit)}>
-      <h2>ლისტინგის დამატება</h2>
+    <PageContainer>
+      <FormContainer onSubmit={handleSubmit(onSubmit)}>
+        <FormHeader>ლისტინგის დამატება</FormHeader>
 
-      {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
+        {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
 
-      <FormField>
-        <h5>გარიგების ტიპი</h5>
-        <input type="radio" value="sale" {...register("saleRent")} /> იყიდება
-        <input type="radio" value="rent" {...register("saleRent")} /> ქირავდება
-        {errors.saleRent && <ErrorText>{errors.saleRent.message}</ErrorText>}
-      </FormField>
+        <FullWidthField>
+          <h4>ᲒᲐᲠᲘᲒᲔᲑᲘᲡ ᲢᲘᲞᲘ</h4>
+          <RadioButtonGroup>
+            <input type="radio" value="sale" {...register("saleRent")} />{" "}
+            იყიდება
+            <input type="radio" value="rent" {...register("saleRent")} />{" "}
+            ქირავდება
+          </RadioButtonGroup>
+          {errors.saleRent && <ErrorText>{errors.saleRent.message}</ErrorText>}
+        </FullWidthField>
 
-      <div className="">
-        <h5>მდებარეობა</h5>
-        <FormField>
-          <Label>მისამართი *</Label>
-          <input type="text" {...register("address")} />
-          {errors.address && <ErrorText>{errors.address.message}</ErrorText>}
-        </FormField>
+        <h4>ᲛᲓᲔᲑᲐᲠᲔᲝᲑᲐ</h4>
+        <InputGroup>
+          <HalfWidthField>
+            <Label>მისამართი *</Label>
+            <input type="text" {...register("address")} />
+            {errors.address && <ErrorText>{errors.address.message}</ErrorText>}
+          </HalfWidthField>
 
-        <FormField>
-          <Label>საფოსტო ინდექსი *</Label>
-          <input type="text" {...register("zipCode")} />
-          {errors.zipCode && <ErrorText>{errors.zipCode.message}</ErrorText>}
-        </FormField>
+          <HalfWidthField>
+            <Label>საფოსტო ინდექსი *</Label>
+            <input type="text" {...register("zipCode")} />
+            {errors.zipCode && <ErrorText>{errors.zipCode.message}</ErrorText>}
+          </HalfWidthField>
 
-        <FormField>
-          <Label>რეგიონი</Label>
-          <select {...register("region")}>
-            <option value="">აირჩიეთ</option>
-            {regions.map((region) => (
-              <option key={region.id} value={region.id}>
-                {region.name}
-              </option>
-            ))}
-          </select>
-          {errors.region && <ErrorText>{errors.region.message}</ErrorText>}
-        </FormField>
+          <HalfWidthField>
+            <Label>რეგიონი</Label>
+            <select {...register("region")}>
+              <option value="">აირჩიეთ</option>
+              {regions.map((region) => (
+                <option key={region.id} value={region.id}>
+                  {region.name}
+                </option>
+              ))}
+            </select>
+            {errors.region && <ErrorText>{errors.region.message}</ErrorText>}
+          </HalfWidthField>
 
-        <FormField>
-          <Label>ქალაქი</Label>
-          <select {...register("city")}>
-            <option value="">აირჩიეთ</option>
-            {filteredCities.map((city) => (
-              <option key={city.id} value={city.id}>
-                {city.name}
-              </option>
-            ))}
-          </select>
-          {errors.city && <ErrorText>{errors.city.message}</ErrorText>}
-        </FormField>
-      </div>
+          <HalfWidthField>
+            <Label>ქალაქი</Label>
+            <select {...register("city")}>
+              <option value="">აირჩიეთ</option>
+              {filteredCities.map((city) => (
+                <option key={city.id} value={city.id}>
+                  {city.name}
+                </option>
+              ))}
+            </select>
+            {errors.city && <ErrorText>{errors.city.message}</ErrorText>}
+          </HalfWidthField>
+        </InputGroup>
 
-      <div className="">
-        <h5>ბინის დეტალები</h5>
+        <h4>ᲑᲘᲜᲘᲡ ᲓᲔᲢᲐᲚᲔᲑᲘ</h4>
+        <InputGroup>
+          <HalfWidthField>
+            <Label>ფასი</Label>
+            <input type="text" {...register("price")} />
+            {errors.price && <ErrorText>{errors.price.message}</ErrorText>}
+          </HalfWidthField>
 
-        <FormField>
-          <Label>ფასი</Label>
-          <input type="text" {...register("price")} />
-          {errors.price && <ErrorText>{errors.price.message}</ErrorText>}
-        </FormField>
+          <HalfWidthField>
+            <Label>ფართობი</Label>
+            <input type="text" {...register("area")} />
+            {errors.area && <ErrorText>{errors.area.message}</ErrorText>}
+          </HalfWidthField>
 
-        <FormField>
-          <Label>ფართობი</Label>
-          <input type="text" {...register("area")} />
-          {errors.area && <ErrorText>{errors.area.message}</ErrorText>}
-        </FormField>
-
-        <FormField>
-          <Label>საძინებლების რაოდენობა *</Label>
-          <input type="text" {...register("bedrooms")} />
-          {errors.bedrooms && <ErrorText>{errors.bedrooms.message}</ErrorText>}
-        </FormField>
-
-        <FormField>
-          <Label>აღწერა *</Label>
-          <textarea {...register("description")} />
-          {errors.description && (
-            <ErrorText>{errors.description.message}</ErrorText>
-          )}
-        </FormField>
-
-        <FormField>
-          <Label>ატვირთეთ ფოტო *</Label>
-          <input
-            id="avatar"
-            type="file"
-            accept="image/*"
-            style={{ display: "none" }}
-            {...register("avatar")}
-            onChange={handleAvatarChange}
-          />
-          <AvatarTextArea
-            onClick={() => document.getElementById("avatar").click()}
-          >
-            {!avatarPreview && <PlusIcon>+</PlusIcon>}
-            {avatarPreview && (
-              <AvatarPreviewContainer>
-                <AvatarPreview src={avatarPreview} />
-                <DeleteIcon
-                  $variant="secondary"
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDeleteAvatar();
-                  }}
-                >
-                  🗑️
-                </DeleteIcon>
-              </AvatarPreviewContainer>
+          <HalfWidthField>
+            <Label>საძინებლების რაოდენობა *</Label>
+            <input type="text" {...register("bedrooms")} />
+            {errors.bedrooms && (
+              <ErrorText>{errors.bedrooms.message}</ErrorText>
             )}
-          </AvatarTextArea>
-          {errors.avatar && <ErrorText>{errors.avatar.message}</ErrorText>}
+          </HalfWidthField>
+
+          <FormField>
+            <Label>აღწერა *</Label>
+            <textarea {...register("description")} style={{ height: "80px" }} />
+            {errors.description && (
+              <ErrorText>{errors.description.message}</ErrorText>
+            )}
+          </FormField>
+        </InputGroup>
+
+        <label>ატვირთეთ ფოტო *</label>
+        <AvatarTextArea
+          onClick={() => document.getElementById("avatar").click()}
+        >
+          {!avatarPreview && <PlusIcon>+</PlusIcon>}
+          {avatarPreview && (
+            <div>
+              <AvatarPreview src={avatarPreview} />
+              <DeleteIcon
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDeleteAvatar();
+                }}
+              >
+                🗑️
+              </DeleteIcon>
+            </div>
+          )}
+        </AvatarTextArea>
+        <input
+          id="avatar"
+          type="file"
+          accept="image/*"
+          style={{ display: "none" }}
+          {...register("avatar")}
+          onChange={handleAvatarChange}
+        />
+        {errors.avatar && <ErrorText>{errors.avatar.message}</ErrorText>}
+
+        <h4>ᲐᲒᲔᲜᲢᲘ</h4>
+        <FormField>
+          <select {...register("agent")}>
+            <option value="">აირჩიეთ</option>
+            {agents.map((agent) => (
+              <option key={agent.id} value={agent.id}>
+                {`${agent.name} ${agent.surname}`}
+              </option>
+            ))}
+          </select>
+          {errors.agent && <ErrorText>{errors.agent.message}</ErrorText>}
         </FormField>
-      </div>
 
-      <FormField>
-        <h5>აგენტი</h5>
-        <select {...register("agent")}>
-          <option value="">აირჩიეთ</option>
-          {agents.map((agent) => (
-            <option key={agent.id} value={agent.id}>
-              {`${agent.name} ${agent.surname}`}
-            </option>
-          ))}
-        </select>
-        {errors.agent && <ErrorText>{errors.agent.message}</ErrorText>}
-      </FormField>
-
-      <ButtonsContainer>
-        <StyledButton
-          $variant={"primary"}
-          style={{ width: "105px", height: "45px" }}
-          onClick={handleFormReset}
-        >
-          გაუქმება
-        </StyledButton>
-        <StyledButton
-          $variant={buttonVariant}
-          style={{ width: "105px", height: "45px" }}
-          type="submit"
-          onClick={handleSubmitClick}
-        >
-          დაამატე ლისტინგი
-        </StyledButton>
-      </ButtonsContainer>
-    </FormContainer>
+        <ButtonsContainer>
+          <StyledButton
+            $variant="secondary"
+            style={{ width: "105px", height: "50px" }}
+            onClick={handleFormReset}
+            type="button"
+          >
+            გაუქმება
+          </StyledButton>
+          <StyledButton
+            $variant="primary"
+            style={{ width: "105px", height: "50px" }}
+            type="submit"
+          >
+            დაამატე ლისტინგი
+          </StyledButton>
+        </ButtonsContainer>
+      </FormContainer>
+    </PageContainer>
   );
 };
 

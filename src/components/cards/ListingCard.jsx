@@ -9,13 +9,13 @@ import zipIcon from "../../assets/icons/zipIcon.png";
 const CardContainer = styled.div`
   width: 385px;
   height: 455px;
-  border: 1px solid #ddd;
-  margin: 10px;
-  border-radius: 10px;
-  cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 10px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  cursor: pointer;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease;
 
@@ -37,18 +37,18 @@ const ListingImage = styled.img`
 
 const SaleTag = styled.div`
   position: absolute;
-  top: 15px;
-  left: 15px;
   width: 70px;
   height: 15px;
-  background-color: rgba(2, 21, 38, 0.5);
-  color: white;
-  font-weight: 500;
-  font-size: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
+  top: 15px;
+  left: 15px;
   border-radius: 5px;
+  font-weight: 500;
+  font-size: 12px;
+  background-color: rgba(2, 21, 38, 0.5);
+  color: white;
 `;
 
 const PriceContainer = styled.div`
@@ -58,10 +58,10 @@ const PriceContainer = styled.div`
 
 const IconFeatureContainer = styled.div`
   display: flex;
-  justify-content: flex-start;
   width: 90%;
-  margin: 13px;
+  justify-content: flex-start;
   align-items: center;
+  margin: 13px;
 `;
 
 const PriceiIcon = styled.img`
@@ -71,9 +71,9 @@ const PriceiIcon = styled.img`
 `;
 
 const PriceText = styled.span`
-  font-size: 28px;
-  font-weight: 700;
   font-family: "FiraGO", sans-serif;
+  font-weight: 700;
+  font-size: 28px;
 `;
 
 const Superscript = styled.sup`

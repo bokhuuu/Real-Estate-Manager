@@ -2,22 +2,23 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
-import ListingCard from "../components/cards/ListingCard";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import ListingCard from "../components/cards/ListingCard";
 
 const SliderContainer = styled.div`
   width: 1595px;
   height: 455px;
-  margin-top: 30px;
+  gap: 20px;
 `;
 
 const SliderTitle = styled.h5`
   font-family: "FiraGO", sans-serif;
+  font-weight: 500;
   font-size: 32px;
-  font-weight: 700;
-  text-align: left;
+  margin: 15px 0 15px 0;
+  color: rgba(2, 21, 38, 1);
 `;
 
 const ListingsSlider = ({ regionId, currentListingId }) => {
@@ -26,6 +27,7 @@ const ListingsSlider = ({ regionId, currentListingId }) => {
 
   useEffect(() => {
     const token = "9d0216df-a6d7-4aba-985c-4256f71f56fc";
+
     axios
       .get(
         `https://api.real-estate-manager.redberryinternship.ge/api/real-estates?region_id=${regionId}`,

@@ -1,29 +1,63 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import styled from "styled-components";
-import axios from "axios";
 import StyledButton from "../../styles/StyledButton";
 
-const FormContainer = styled.form``;
+const FormContainer = styled.form`
+  display: flex;
+  flex-direction: column;
+  padding: 50px 70px 30px 70px;
+  gap: 10px;
+`;
 
-const FormField = styled.div``;
+const FormHeader = styled.h5`
+  font-family: "FiraGO", sans-serif;
+  font-weight: 700;
+  font-size: 32px;
+  margin-bottom: 30px;
+  align-self: center;
+`;
 
-const Label = styled.label``;
+const FormFieldRow = styled.div`
+  display: flex;
+  gap: 20px;
+`;
+
+const FormField = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  input {
+    padding: 10px;
+    margin: 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+  }
+`;
+
+const Label = styled.label`
+  font-family: "FiraGO", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  margin-bottom: 8px;
+`;
 
 const ErrorText = styled.p`
   color: red;
 `;
 
 const AvatarTextArea = styled.div`
-  width: 150px;
-  height: 150px;
-  border: 2px dashed #ccc;
+  position: relative;
   display: flex;
   justify-content: center;
+  width: 100%;
+  height: 100px;
   align-items: center;
-  position: relative;
+  border: 2px dashed #ccc;
   cursor: pointer;
 `;
 
@@ -32,14 +66,25 @@ const PlusIcon = styled.span`
   color: #ccc;
 `;
 
-const AvatarPreviewContainer = styled.div``;
+const AvatarPreview = styled.img`
+  width: 100%;
+  height: 100%;
+`;
 
-const AvatarPreview = styled.img``;
-
-const DeleteIcon = styled.button``;
+const DeleteIcon = styled.button`
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+`;
 
 const ButtonsContainer = styled.div`
   display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  gap: 20px;
 `;
 
 const schema = yup.object().shape({
@@ -68,7 +113,6 @@ const schema = yup.object().shape({
 const AddAgentForm = ({ handleClose }) => {
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [submissionMessage, setSubmissionMessage] = useState(null);
-  const [buttonVariant, setButtonVariant] = useState("primary");
 
   const {
     register,
@@ -168,83 +212,78 @@ const AddAgentForm = ({ handleClose }) => {
     }
   };
 
-  const handleSubmitClick = () => {
-    setButtonVariant("secondary");
-  };
-
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)}>
-      <h2>აგენტის დამატება</h2>
+      <FormHeader>აგენტის დამატება</FormHeader>
       {submissionMessage && <p>{submissionMessage}</p>}
 
-      <FormField>
-        <Label>სახელი *</Label>
-        <input type="text" {...register("name")} />
-        {errors.name && <ErrorText>{errors.name.message}</ErrorText>}
-      </FormField>
+      <FormFieldRow>
+        <FormField>
+          <Label>სახელი *</Label>
+          <input type="text" {...register("name")} />
+          {errors.name && <ErrorText>{errors.name.message}</ErrorText>}
+        </FormField>
 
-      <FormField>
-        <Label>გვარი *</Label>
-        <input type="text" {...register("surname")} />
-        {errors.surname && <ErrorText>{errors.surname.message}</ErrorText>}
-      </FormField>
+        <FormField>
+          <Label>გვარი *</Label>
+          <input type="text" {...register("surname")} />
+          {errors.surname && <ErrorText>{errors.surname.message}</ErrorText>}
+        </FormField>
+      </FormFieldRow>
 
-      <FormField>
-        <Label>ელ-ფოსტა *</Label>
-        <input type="email" {...register("email")} />
-        {errors.email && <ErrorText>{errors.email.message}</ErrorText>}
-      </FormField>
+      <FormFieldRow>
+        <FormField>
+          <Label>ელ-ფოსტა *</Label>
+          <input type="email" {...register("email")} />
+          {errors.email && <ErrorText>{errors.email.message}</ErrorText>}
+        </FormField>
 
-      <FormField>
-        <Label>ტელეფონის ნომერი *</Label>
-        <input type="tel" {...register("phone")} />
-        {errors.phone && <ErrorText>{errors.phone.message}</ErrorText>}
-      </FormField>
+        <FormField>
+          <Label>ტელეფონის ნომერი *</Label>
+          <input type="tel" {...register("phone")} />
+          {errors.phone && <ErrorText>{errors.phone.message}</ErrorText>}
+        </FormField>
+      </FormFieldRow>
 
-      <FormField>
-        <Label>ატვირთეთ ფოტო *</Label>
-        <input
-          id="avatar"
-          type="file"
-          accept="image/*"
-          style={{ display: "none" }}
-          {...register("avatar")}
-          onChange={handleAvatarChange}
-        />
-        <AvatarTextArea
-          onClick={() => document.getElementById("avatar").click()}
-        >
-          {!avatarPreview && <PlusIcon>+</PlusIcon>}
-          {avatarPreview && (
-            <AvatarPreviewContainer>
-              <AvatarPreview src={avatarPreview} />
-              <DeleteIcon
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleDeleteAvatar();
-                }}
-              >
-                🗑️
-              </DeleteIcon>
-            </AvatarPreviewContainer>
-          )}
-        </AvatarTextArea>
-        {errors.avatar && <ErrorText>{errors.avatar.message}</ErrorText>}
-      </FormField>
+      <label>ატვირთეთ ფოტო *</label>
+      <AvatarTextArea onClick={() => document.getElementById("avatar").click()}>
+        {!avatarPreview && <PlusIcon>+</PlusIcon>}
+        {avatarPreview && (
+          <div>
+            <AvatarPreview src={avatarPreview} />
+            <DeleteIcon
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDeleteAvatar();
+              }}
+            >
+              🗑️
+            </DeleteIcon>
+          </div>
+        )}
+      </AvatarTextArea>
+      <input
+        id="avatar"
+        type="file"
+        accept="image/*"
+        style={{ display: "none" }}
+        {...register("avatar")}
+        onChange={handleAvatarChange}
+      />
+      {errors.avatar && <ErrorText>{errors.avatar.message}</ErrorText>}
 
       <ButtonsContainer>
         <StyledButton
-          $variant="primary"
-          style={{ width: "105px", height: "45px" }}
+          type="button"
+          $variant="secondary"
+          style={{ width: "105px", height: "50px" }}
           onClick={handleFormReset}
         >
           გაუქმება
         </StyledButton>
         <StyledButton
           $variant="primary"
-          style={{ width: "105px", height: "45px" }}
-          onClick={handleSubmitClick}
+          style={{ width: "105px", height: "50px" }}
         >
           დაამატე აგენტი
         </StyledButton>

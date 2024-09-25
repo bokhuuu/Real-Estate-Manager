@@ -1,16 +1,16 @@
-import { useState } from "react";
 import StyledButton from "../../styles/StyledButton";
 
 const DeleteListingButton = ({ onClick }) => {
-  const [buttonVariant, setButtonVariant] = useState("primary");
-
   const handleButtonClick = () => {
     onClick();
-    setButtonVariant("secondary");
   };
 
   return (
-    <StyledButton $variant={buttonVariant} onClick={handleButtonClick}>
+    <StyledButton
+      $variant="primary"
+      onClick={handleButtonClick}
+      style={{ marginTop: "35px" }}
+    >
       ლისტინგის წაშლა
     </StyledButton>
   );

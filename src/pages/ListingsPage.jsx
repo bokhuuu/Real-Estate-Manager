@@ -1,21 +1,20 @@
 import { useState, useEffect } from "react";
-import styled from "styled-components";
 import axios from "axios";
+import styled from "styled-components";
 import AddListingButton from "../components/buttons/AddListingButton";
 import AddAgenButton from "../components/buttons/AddAgenButton";
 import ListingCard from "../components/cards/ListingCard";
 import FilterManager from "../components/filters/FilterManager";
 
 const PageContainer = styled.div`
-  padding: 10px;
+  width: 1596px;
+  height: auto;
+  margin: 15px 162px 0 162px;
 `;
-
 const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
   gap: 20px;
-  margin-bottom: 20px;
 `;
 
 const ButtonsContainer = styled.div`
@@ -24,9 +23,9 @@ const ButtonsContainer = styled.div`
 `;
 
 const ListingsContainer = styled.div`
-  height: auto;
   display: grid;
   grid-template-columns: repeat(4, 1fr); /* 4 cards in a row */
+  height: auto;
   gap: 20px;
 `;
 
@@ -145,7 +144,9 @@ const ListingsPage = () => {
             <ListingCard key={listing.id} listing={listing} />
           ))
         ) : (
-          <p>აღნიშნული მონაცემებით განცხადება არ მოიძებნა</p>
+          <p style={{ marginTop: "100px", width: "100%", color: "red" }}>
+            ᲐᲛ მონაცემებით განცხადება არ მოიძებნა
+          </p>
         )}
       </ListingsContainer>
     </PageContainer>

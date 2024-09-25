@@ -8,6 +8,13 @@ import BedroomFilter from "./BedroomFilter";
 
 const FiltersContainer = styled.div`
   display: flex;
+  justify-content: center;
+  margin: 15px 0 15px 0;
+  gap: 30px;
+`;
+
+const StyledButtonContainer = styled.div`
+  margin: -12px 0 0 80px;
 `;
 
 const FilterManager = ({ onFilterChange }) => {
@@ -59,21 +66,17 @@ const FilterManager = ({ onFilterChange }) => {
           onFilterChange={(area) => handleFilterChange("area", area)}
           clearAll={clearAll}
         />
-
         <BedroomFilter
           onFilterChange={(bedrooms) =>
             handleFilterChange("bedrooms", bedrooms)
           }
           clearAll={clearAll}
         />
-
-        <StyledButton
-          $variant="primary"
-          style={{ width: "115px", height: "45px" }}
-          onClick={handleClearAll}
-        >
-          გასუფთავება
-        </StyledButton>
+        <StyledButtonContainer>
+          <StyledButton $variant="secondary" onClick={handleClearAll}>
+            გასუფთავება
+          </StyledButton>
+        </StyledButtonContainer>
       </FiltersContainer>
     </div>
   );

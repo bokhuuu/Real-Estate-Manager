@@ -5,51 +5,43 @@ import StyledButton from "../../styles/StyledButton";
 import downArrow from "../../assets/icons/downArrow.png";
 import upArrow from "../../assets/icons/upArrow.png";
 
-const FilterContainer = styled.div`
-  margin-bottom: 20px;
+const FiltersContainer = styled.div`
   position: relative;
+  display: flex;
+  margin-bottom: 50px;
+  align-items: flex-start;
+  gap: 20px;
 `;
 
-const SelectedRegionsContainer = styled.div`
-  margin-top: 10px;
-  display: flex;
-  flex-wrap: wrap;
-`;
-
-const RegionItem = styled.div`
-  background-color: #f0f0f0;
-  margin-right: 10px;
-  padding: 5px;
-  border-radius: 3px;
-  display: flex;
-  align-items: center;
+const FilterContainer = styled.div`
+  position: relative;
+  display: inline-block;
 `;
 
 const ArrowButton = styled.img`
-  cursor: pointer;
   width: 20px;
   margin-left: 10px;
+  cursor: pointer;
 `;
 
-const FilterCard = styled.div`
+const SelectedRegionsContainer = styled.div`
   position: absolute;
-  top: 35px;
-  left: 0;
-  width: 500px;
-  background-color: white;
-  border: 1px solid #ddd;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  z-index: 1000;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  width: max-content;
+  top: 20px;
+  padding: 5px;
+  gap: 10px;
+  z-index: 10;
+  border-radius: 5px;
+  background-color: #f9f9f9;
 `;
 
 const RegionGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
   margin-bottom: 20px;
+  gap: 10px;
 `;
 
 const CheckboxLabel = styled.label`
@@ -60,6 +52,51 @@ const CheckboxLabel = styled.label`
 
 const RegionCheckbox = styled.input`
   margin-right: 10px;
+`;
+
+const SelectedRegionItem = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  font-size: 14px;
+  border-radius: 3px;
+  background-color: #f0f0f0;
+`;
+
+const FilterCard = styled.div`
+  position: absolute;
+  width: 730px;
+  height: 285px;
+  top: 95px;
+  padding: 25px;
+  z-index: 100;
+  border: 1px solid #ddd;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+`;
+
+const FilterHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+`;
+
+const HeaderTitle = styled.h3`
+  font-size: 16px;
+  font-weight: bold;
+  text-align: right;
+`;
+
+const RemoveButton = styled.span`
+  margin-left: 5px;
+  color: red;
+  cursor: pointer;
+`;
+
+const StyledButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
 `;
 
 const RegionFilter = ({ onFilterChange, clearAll }) => {
@@ -117,52 +154,57 @@ const RegionFilter = ({ onFilterChange, clearAll }) => {
   };
 
   return (
-    <FilterContainer>
-      <div onClick={() => setShowFilter(!showFilter)}>
-        <span>რეგიონი</span>
-        <ArrowButton src={showFilter ? upArrow : downArrow} />
-      </div>
+    <FiltersContainer>
+      <FilterContainer>
+        <div onClick={() => setShowFilter(!showFilter)}>
+          <span>რეგიონი</span>
+          <ArrowButton src={showFilter ? upArrow : downArrow} />
+        </div>
 
-      {showFilter && (
-        <FilterCard>
-          <RegionGrid>
-            {regions.map((region) => (
-              <CheckboxLabel key={region.id}>
-                <RegionCheckbox
-                  type="checkbox"
-                  checked={selectedRegions.includes(region.id)}
-                  onChange={() => handleRegionToggle(region.id)}
-                />
-                {region.name}
-              </CheckboxLabel>
-            ))}
-          </RegionGrid>
+        {showFilter && (
+          <FilterCard>
+            <FilterHeader>
+              <HeaderTitle>რეგონის მიხედვით</HeaderTitle>
+            </FilterHeader>
+            <RegionGrid>
+              {regions.map((region) => (
+                <CheckboxLabel key={region.id}>
+                  <RegionCheckbox
+                    type="checkbox"
+                    checked={selectedRegions.includes(region.id)}
+                    onChange={() => handleRegionToggle(region.id)}
+                  />
+                  {region.name}
+                </CheckboxLabel>
+              ))}
+            </RegionGrid>
 
-          <StyledButton
-            $variant="primary"
-            style={{ width: "70px", height: "25px" }}
-            onClick={handleApplyFilters}
-          >
-            არჩევა
-          </StyledButton>
-        </FilterCard>
-      )}
+            <StyledButtonContainer>
+              <StyledButton $variant="primary" onClick={handleApplyFilters}>
+                არჩევა
+              </StyledButton>
+            </StyledButtonContainer>
+          </FilterCard>
+        )}
 
-      <SelectedRegionsContainer>
-        {selectedRegions.map((regionId) => {
-          const region = regions.find((r) => r.id === regionId);
+        <SelectedRegionsContainer>
+          {selectedRegions.map((regionId) => {
+            const region = regions.find((r) => r.id === regionId);
 
-          if (!region) return null;
+            if (!region) return null;
 
-          return (
-            <RegionItem key={regionId}>
-              {region.name}{" "}
-              <span onClick={() => handleRemoveRegion(regionId)}>X</span>
-            </RegionItem>
-          );
-        })}
-      </SelectedRegionsContainer>
-    </FilterContainer>
+            return (
+              <SelectedRegionItem key={regionId}>
+                {region.name}{" "}
+                <RemoveButton onClick={() => handleRemoveRegion(regionId)}>
+                  X
+                </RemoveButton>
+              </SelectedRegionItem>
+            );
+          })}
+        </SelectedRegionsContainer>
+      </FilterContainer>
+    </FiltersContainer>
   );
 };
 

@@ -20,26 +20,27 @@ const BackArrowIcon = styled.img`
 `;
 
 const CardContainer = styled.div`
+  position: relative;
   width: 1590px;
   height: 715px;
   display: flex;
-  position: relative;
+  gap: 68px;
 `;
 
 const SaleTag = styled.div`
   position: absolute;
-  top: 15px;
-  left: 15px;
   width: 145px;
   height: 45px;
-  background-color: rgba(2, 21, 38, 0.5);
-  color: white;
-  font-weight: 500;
-  font-size: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
+  top: 25px;
+  left: 25px;
+  font-weight: 500;
+  font-size: 20px;
   border-radius: 20px;
+  background-color: rgba(2, 21, 38, 0.5);
+  color: white;
 `;
 
 const ImageSection = styled.div`
@@ -56,9 +57,12 @@ const ImageSection = styled.div`
     border-radius: 15px;
   }
 
-  p {
+  span {
+    display: flex;
+    justify-content: flex-end;
     margin-top: 10px;
     font-size: 14px;
+    color: rgba(103, 110, 118, 1);
   }
 `;
 
@@ -79,10 +83,10 @@ const IconFeatureContainer = styled.div`
   }
 
   p {
-    margin: 0;
-    font-size: 24px;
-    font-weight: 400;
     font-family: "FiraGO", sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+    margin: 0;
   }
 `;
 
@@ -93,43 +97,62 @@ const PriceiIcon = styled.img`
 `;
 
 const PriceText = styled.span`
-  font-size: 28px;
-  font-weight: 700;
   font-family: "FiraGO", sans-serif;
+  font-weight: 700;
+  font-size: 28px;
 `;
+
+const DescriptionContainer = styled.p`
+  width: 500px;
+  height: 80px;
+  padding: 5px;
+  border: 3px dotted #000;
+`;
+
 const AgentInfoContainer = styled.div`
   width: 500px;
   height: 175px;
-  display: flex;
-  align-items: center;
-  margin-top: 30px;
+  margin-top: 20px;
 `;
 
 const AgentDetails = styled.div`
-  margin-left: 15px;
+  display: flex;
+  align-items: center;
+
+  img {
+    width: 72px;
+    height: 72px;
+    margin: 17px 10px 17px 0;
+  }
 
   p {
+    font-family: "FiraGO", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
     margin: 12px 0;
-    font-size: 20px;
-    margin-bottom: 10px;
+    color: rgba(2, 21, 38, 1);
+  }
+
+  span {
+    display: block;
+    font-family: "FiraGO", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    margin-top: 4px;
+    color: rgba(103, 110, 118, 1);
   }
 `;
 
 const EmailIcon = styled.img`
   width: 24px;
   height: 24px;
-  margin-right: 8px;
+  margin-right: 10px;
 `;
 
 const PhoneIcon = styled.img`
   width: 24px;
   height: 24px;
-  margin-right: 8px;
-`;
-
-const DescriptionContainer = styled.p`
-  width: 500px;
-  height: 80px;
+  margin-right: 10px;
 `;
 
 const HugeCard = ({ listing, onDelete }) => {
@@ -162,10 +185,10 @@ const HugeCard = ({ listing, onDelete }) => {
 
         <ImageSection>
           <img src={listing.image} />
-          <p>
+          <span>
             გამოქვეყნების თარიღი{" "}
             {new Date(listing.created_at).toLocaleDateString()}
-          </p>
+          </span>
         </ImageSection>
 
         <DetailsSection>
@@ -198,24 +221,28 @@ const HugeCard = ({ listing, onDelete }) => {
           <DescriptionContainer>{listing.description}</DescriptionContainer>
 
           <AgentInfoContainer>
-            <img src={listing.agent.avatar} />
             <AgentDetails>
-              <p>
-                {listing.agent.name} {listing.agent.surname}
-              </p>
-              აგენტი
-              <p>
-                <EmailIcon src={mailIcon} />
-                {listing.agent.email}
-              </p>
-              <p>
-                <PhoneIcon src={phoneIcon} />
-                {formatPhoneNumber(listing.agent.phone)}
-              </p>
+              <img src={listing.agent.avatar} />
+              <div>
+                <p>
+                  {listing.agent.name} {listing.agent.surname}
+                  <span>აგენტი</span>
+                </p>
+              </div>
             </AgentDetails>
+
+            <p>
+              <EmailIcon src={mailIcon} />
+              {listing.agent.email}
+            </p>
+            <p>
+              <PhoneIcon src={phoneIcon} />
+              {formatPhoneNumber(listing.agent.phone)}
+            </p>
           </AgentInfoContainer>
 
           <DeleteListingButton onClick={() => setShowModal(true)} />
+
           <DeleteListingModal
             show={showModal}
             onHide={() => setShowModal(false)}

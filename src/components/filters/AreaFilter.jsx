@@ -4,60 +4,122 @@ import StyledButton from "../../styles/StyledButton";
 import downArrow from "../../assets/icons/downArrow.png";
 import upArrow from "../../assets/icons/upArrow.png";
 
-const FilterContainer = styled.div`
-  margin-bottom: 20px;
+const FiltersContainer = styled.div`
   position: relative;
-`;
-
-const SelectedAreasContainer = styled.div`
-  margin-top: 10px;
   display: flex;
-  flex-wrap: wrap;
+  align-items: flex-start;
+  margin-bottom: 50px;
+  gap: 20px;
 `;
 
-const AreaItem = styled.div`
-  background-color: #f0f0f0;
-  padding: 5px;
-  margin-right: 10px;
+const FilterContainer = styled.div`
+  position: relative;
+  display: inline-block;
 `;
 
 const ArrowButton = styled.img`
-  cursor: pointer;
   width: 20px;
   margin-left: 10px;
+  cursor: pointer;
+`;
+
+const SelectedAreaContainer = styled.div`
+  position: absolute;
+  width: max-content;
+  display: flex;
+  flex-wrap: wrap;
+  top: 50px;
+  gap: 10px;
+  padding: 5px;
+  z-index: 10;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+`;
+
+const AreaGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 10px;
+
+  input {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+
+  span {
+    display: inline-block;
+    margin-left: 5px;
+    text-align: start;
+    cursor: pointer;
+  }
+
+  input:nth-child(3),
+  span:nth-child(5),
+  span:nth-child(7),
+  span:nth-child(9),
+  span:nth-child(11),
+  span:nth-child(13) {
+    grid-column: 1;
+  }
+
+  input:nth-child(4),
+  span:nth-child(6),
+  span:nth-child(8),
+  span:nth-child(10),
+  span:nth-child(12),
+  span:nth-child(14) {
+    grid-column: 2;
+  }
 `;
 
 const FilterCard = styled.div`
   position: absolute;
-  top: 35px;
-  left: 0;
-  width: 400px;
+  width: 382px;
+  height: 372px;
+  top: 95px;
+  padding: 25px;
+  z-index: 100;
   background-color: white;
+  border-radius: 10px;
   border: 1px solid #ddd;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
 `;
 
-const ColumnContainer = styled.div`
+const SelectedAreaItem = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  font-size: 14px;
+  border-radius: 3px;
+  background-color: #f0f0f0;
+`;
+
+const FilterHeader = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
 `;
 
-const Column = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+const HeaderTitle = styled.h3`
+  font-size: 16px;
+  font-weight: bold;
+  text-align: right;
 `;
 
-const Input = styled.input`
-  width: 60px;
-  padding: 5px;
-  margin-top: 5px;
-  margin-bottom: 10px;
+const RemoveButton = styled.span`
+  margin-left: 5px;
+  color: red;
+  cursor: pointer;
+`;
+
+const StyledButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
 `;
 
 const AreaFilter = ({ onFilterChange, clearAll }) => {
@@ -104,83 +166,71 @@ const AreaFilter = ({ onFilterChange, clearAll }) => {
   };
 
   return (
-    <FilterContainer>
-      <div onClick={() => setShowFilter(!showFilter)}>
-        <span>ფართობი</span>
-        <ArrowButton src={showFilter ? upArrow : downArrow} />
-      </div>
+    <FiltersContainer>
+      <FilterContainer>
+        <div onClick={() => setShowFilter(!showFilter)}>
+          <span>ფართობი</span>
+          <ArrowButton src={showFilter ? upArrow : downArrow} />
+        </div>
 
-      {showFilter && (
-        <FilterCard>
-          <ColumnContainer>
-            <Column>
-              <p>მინ. ფართობი</p>
-              <Input
+        {showFilter && (
+          <FilterCard>
+            <FilterHeader>
+              <HeaderTitle>ფართობის მიხედვით</HeaderTitle>
+            </FilterHeader>
+            <AreaGrid>
+              <span>მინ. ფართობი</span>
+              <span>მაქს. ფართობი</span>
+
+              <input
                 type="number"
-                placeholder="Min"
+                placeholder="დან"
                 value={area.min}
                 onChange={(e) => setArea({ ...area, min: e.target.value })}
               />
-              <button onClick={() => setArea({ ...area, min: 50 })}>50</button>
-              <button onClick={() => setArea({ ...area, min: 100 })}>
-                100
-              </button>
-              <button onClick={() => setArea({ ...area, min: 150 })}>
-                150
-              </button>
-              <button onClick={() => setArea({ ...area, min: 200 })}>
-                200
-              </button>
-              <button onClick={() => setArea({ ...area, min: 300 })}>
-                300
-              </button>
-            </Column>
-
-            <Column>
-              <p>მაქს. ფართობი</p>
-              <Input
+              <input
                 type="number"
-                placeholder="Max"
+                placeholder="მდე"
                 value={area.max}
                 onChange={(e) => setArea({ ...area, max: e.target.value })}
               />
-              <button onClick={() => setArea({ ...area, max: 50 })}>50</button>
-              <button onClick={() => setArea({ ...area, max: 100 })}>
-                100
-              </button>
-              <button onClick={() => setArea({ ...area, max: 150 })}>
-                150
-              </button>
-              <button onClick={() => setArea({ ...area, max: 200 })}>
-                200
-              </button>
-              <button onClick={() => setArea({ ...area, max: 300 })}>
-                300
-              </button>
-            </Column>
-          </ColumnContainer>
 
-          {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+              <span onClick={() => setArea({ ...area, min: 50 })}>50</span>
+              <span onClick={() => setArea({ ...area, max: 50 })}>50</span>
 
-          <StyledButton
-            $variant="primary"
-            style={{ width: "70px", height: "25px" }}
-            onClick={handleApplyFilters}
-          >
-            არჩევა
-          </StyledButton>
-        </FilterCard>
-      )}
+              <span onClick={() => setArea({ ...area, min: 100 })}>100</span>
+              <span onClick={() => setArea({ ...area, max: 100 })}>100</span>
 
-      <SelectedAreasContainer>
-        {(area.min || area.max) && (
-          <AreaItem>
-            {`${area.min || "აირჩიეთ მინ."} - ${area.max || "აირჩიეთ მაქს."}`}{" "}
-            <span onClick={handleRemoveArea}>X</span>
-          </AreaItem>
+              <span onClick={() => setArea({ ...area, min: 150 })}>150</span>
+              <span onClick={() => setArea({ ...area, max: 150 })}>150</span>
+
+              <span onClick={() => setArea({ ...area, min: 200 })}>200</span>
+              <span onClick={() => setArea({ ...area, max: 200 })}>200</span>
+
+              <span onClick={() => setArea({ ...area, min: 300 })}>300</span>
+              <span onClick={() => setArea({ ...area, max: 300 })}>300</span>
+            </AreaGrid>
+
+            {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+
+            <StyledButtonContainer>
+              <StyledButton $variant="primary" onClick={handleApplyFilters}>
+                არჩევა
+              </StyledButton>
+            </StyledButtonContainer>
+          </FilterCard>
         )}
-      </SelectedAreasContainer>
-    </FilterContainer>
+
+        <SelectedAreaContainer>
+          {(area.min || area.max) && (
+            <SelectedAreaItem>
+              {`${area.min || "აირჩიეთ მინ."} - ${area.max || "აირჩიეთ მაქს."}`}{" "}
+              <RemoveButton onClick={handleRemoveArea}>X</RemoveButton>
+            </SelectedAreaItem>
+          )}
+        </SelectedAreaContainer>
+      </FilterContainer>
+    </FiltersContainer>
   );
 };
 

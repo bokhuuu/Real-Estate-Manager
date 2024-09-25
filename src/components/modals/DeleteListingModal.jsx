@@ -1,13 +1,15 @@
-import StyledButton from "../../styles/StyledButton";
 import { Modal } from "react-bootstrap";
+import StyledButton from "../../styles/StyledButton";
 
 const DeleteListingModal = ({ show, onHide, onDelete }) => {
   return (
-    <Modal show={show} onHide={onHide}>
+    <Modal show={show} onHide={onHide} centered>
       <Modal.Header closeButton></Modal.Header>
-      <Modal.Body>გსურთ წაშალოთ ლისტინგი?</Modal.Body>
-      <Modal.Footer>
-        <StyledButton $variant="primary" onClick={onHide}>
+      <Modal.Title className="text-center w-100">
+        გსურთ წაშალოთ ლისტინგი?
+      </Modal.Title>
+      <Modal.Footer className="d-flex justify-content-center">
+        <StyledButton $variant="secondary" onClick={onHide}>
           გაუქმება
         </StyledButton>
         <StyledButton $variant="primary" onClick={onDelete}>

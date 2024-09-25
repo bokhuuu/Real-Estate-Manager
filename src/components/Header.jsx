@@ -1,13 +1,13 @@
-import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import logo from "../assets/logo.png";
 
 const HeaderContainer = styled.header`
   width: 1920px;
   height: 100px;
   padding: 38px 162px;
-  background: #ffffff;
   border-bottom: 1px solid #dbdbdb;
+  background: #ffffff;
 `;
 
 const Logo = styled.img`
